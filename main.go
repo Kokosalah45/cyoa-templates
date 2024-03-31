@@ -7,38 +7,33 @@ import (
 	"text/template"
 )
 
-
-
-
-
-func main(){
-
+func main() {
 
 	dirs := []string{
 		"*.html",
 		"partials/*.html",
 	}
-	
-	
-	
-	tmpl, err := template.ParseFS(os.DirFS("views") , dirs...)
+
+	tmpl, err := template.ParseFS(os.DirFS("views"), dirs...)
 
 	if err != nil {
 		panic(err)
 	}
 
-	
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
-	http.HandleFunc("/" , func (w http.ResponseWriter , r *http.Request) {
-		tmpl.ExecuteTemplate(w , "index", "")
+		tmpl.ExecuteTemplate(w, "index", "")
 	})
-	http.HandleFunc("/about" , func (w http.ResponseWriter , r *http.Request) {
-		tmpl.ExecuteTemplate(w , "about", "")
+	http.HandleFunc("/about", func(w http.ResponseWriter, r *http.Request) {
+		tmpl.ExecuteTemplate(w, "about", struct{
+			X string
+			Y string
+		}{
+			X : "kero",
+			Y : "mero",
+		})
 	})
 
-	
-
-	log.Fatal(http.ListenAndServe(":8000" , nil))
-	
+	log.Fatal(http.ListenAndServe(":8000", nil))
 
 }
