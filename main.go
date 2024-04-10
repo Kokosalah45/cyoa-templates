@@ -15,6 +15,20 @@ func initStaticPath(mux *http.ServeMux) {
 
 }
 
+type Options struct{
+	Text string `json:"text"`
+	Arc string `json:"arc"`
+}
+
+type Arc struct{
+	Title string `json:"title"`
+	Story []string `json:"story"`
+	Options []Options `json:"options,omitempty"`
+}
+
+type Story map[string]Arc
+
+
 func main() {
 
 
@@ -40,7 +54,8 @@ func main() {
 		if r.Method == "GET" {
 			if len(params) > 0  {
 				if(!(params[0] == "favicon.ico" || params[0] == "")){
-					fmt.Fprintf(w, "Hello %s", params[0])
+					arc := params[0]
+					fmt.Fprintf(w, "Hello %s", arc)
 					return
 				}
 			}
