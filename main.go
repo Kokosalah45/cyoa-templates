@@ -11,7 +11,7 @@ import (
 
 func initStaticPath(mux *http.ServeMux) {
 	fs := http.FileServer(http.Dir("./public"))
-	mux.Handle("/public/", fs)
+	mux.Handle("/public/", http.StripPrefix("/public/", fs))
 
 }
 
