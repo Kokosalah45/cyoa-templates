@@ -63,27 +63,18 @@ func main() {
 	}
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		
 		params := strings.Split(r.URL.Path[1:], "/")
-		if r.Method == "GET" {
-			if len(params) > 0 {
-				if !(params[0] == "favicon.ico" || params[0] == "") {
-					story := getStory()
-					arc := params[0]
-					val , ok := story[arc]
-					if ok {
-						tmpl.ExecuteTemplate(w, "index", val)
-						return
-					}
-					http.NotFound(w, r)
-					return
-				}
+		if r.Method == "GET" && len(params) > 0 &&  params[0] != "" {
+			story := getStory()
+			arc := params[0]
+			if val, ok := story[arc]; ok {
+				tmpl.ExecuteTemplate(w, "index", val)
+				return
 			}
-
-			tmpl.ExecuteTemplate(w, "index", "")
-
+			http.NotFound(w, r)
+			return
 		}
-
+		http.Redirect(w, r, "/intro", http.StatusSeeOther)
 	})
 	log.Fatal(http.ListenAndServe(":8000", mux))
 

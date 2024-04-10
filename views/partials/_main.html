@@ -1,9 +1,14 @@
 {{define "_main"}}
-<main>
-    {{template "_header"}}
+<main class="main">
+   
+    {{template "_header"  .}}
     <section class="container">
-       {{.Title}}
+      {{range $story := .Story}}
+        <p class="">
+           {{$story}}
+        </p>
+      {{end}}
     </section>
-    {{template "_footer"}}
+    {{template "_footer" .}}
 </main>
 {{end}}

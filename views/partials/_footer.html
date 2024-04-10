@@ -1,7 +1,11 @@
 {{define "_footer"}}
 
-    <footer>
-        Hello footer
-    </footer>
+<footer class="footer">
+    {{range $option := .Options}}
+    <a href="{{$option.Arc}}">
+    {{$option.Text}}
+    </a>
+    {{end}}
+</footer>
 
 {{end}}
